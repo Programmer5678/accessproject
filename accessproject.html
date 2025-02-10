@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            gap: 0;
+            box-sizing: border-box;
+            transition: 0.2s;
+            min-width: 0;
+            line-height: 1;
+        }
+
+        body {
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .button-container {
+            padding: 1px 8px;
+            width: fit-content;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .button-overlay {
+
+            position: absolute;
+            inset: 0;
+
+            background-color: rgba(255, 255, 255, 0.6);
+
+            border-radius: 18%;
+
+            opacity: 0;
+        }
+
+
+        .button-container:hover .button-overlay {
+            opacity: 1;
+        }
+
+        form :nth-child(n) {
+            font-size: 10px;
+        }
+
+        form input , form button{
+            width: 120px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="position: relative;">
+        <img src="accessphone.png" />
+
+        <div style="position:absolute; top:33px; right:12px; left:7px; 
+    height: 20px; background-color: rgba(21, 21, 31, 0.492);
+   ">
+
+
+            <div class="button-container">
+
+                <button id="back-button" style="background-color: transparent; border-width: 0;
+                cursor:pointer;">
+                    <i class="fa fa-arrow-circle-left"></i>
+                </button>
+
+                <div class="button-overlay" style="pointer-events: none;"></div>
+
+            </div>
+
+        </div>
+
+
+        <div style="position:absolute; top:53px; right:12px; left:7px; 
+        height: 242px; background-color: rgb(29, 53, 87); display:flex; justify-content: center;
+        align-items: center;">
+
+            <button style="width: 90px; height:90px; border-width: 8px; border-color: white;
+        border-style: solid; border-radius: 50%; background-color: RGB(164, 46, 43);
+        display: flex; justify-content: center; align-items: center; cursor: pointer;
+        " id="go-to-form">
+
+                <i class="fa fa-wheelchair" style="font-size:40px"></i>
+
+            </button>
+
+
+            <div style="padding: 4px 20px; display:none;
+            height: 100%;" id="form-cont">
+                <span style="font-size:15px;">File a complaint:</h2>
+
+                <form>
+                    <label for="search-bar">Location:</label>
+                    <input type="search" style="padding:3px;" id="search-bar" required> </input>
+
+                    <label for="info">Details:</label>
+                    <input type="text" style="padding:3px;" id="info"> </input>
+
+                    <label for="photo">
+                        <span>Photo: </span>
+                        <div style="height:40px; background-color: white;
+                        border-radius: 10%; border-style: dashed; border-color: grey;
+                        border-width:2px; display:flex; justify-content: center;
+                        align-items: center; width:120px; cursor: pointer;">
+
+                            <div id="camera-icon-cont" style=" border-radius: 50%; border-style: solid;
+                             border-color: black; width:20px; height:20px;
+                            border-width:2px; display:flex; justify-content: center;
+                            align-items: center;">
+
+                                <i class="fa fa-camera" style="transform: translate(-0.4px, -0.1px)
+                                "></i>
+
+                            </div>
+
+                            <img id="preview" style="display:none; 
+                            width:40px; height:30px;" />
+
+
+                        </div>
+                    </label>
+                    <input type="file" accept="image/*" id="photo" style="display: none;"> </input>
+
+                    <p style="font-size:10px; padding: 2px 0px;">Do I want to recieve updates?</p>
+
+                    <div style="display:flex; ">
+                        <input id="r1" type="radio" name="r" style="width: 12px;" required />
+                        <label for="r1" >
+                            <p style="font-size: 8px;">Yes id like to recieve regular updates!
+                            </p>
+                        </label>
+                    </div>
+
+                    <div style="display:flex; ">
+                        <input id="r2" type="radio" name="r" style="width: 11px;" required/>
+                        <label for="r2">
+                            <span style="font-size: 8px;"> Nope. Send and forget!
+                            </span>
+                        </label>
+                    </div>
+
+
+                    <button type="submit" style="background-color: white; 
+                    border-color:black; border-width:1px; border-radius:10%; padding:3px;">
+                        Submit Complaint</button>
+
+                </form>
+
+                <div id="after-sub-msg" style="display: none;padding-top:2px;">
+
+                    
+                    <p style="font-size:7px;">
+                        <i class="fa fa-thumbs-up" style="font-size:6px;"></i>
+                        Successfully submited form. Thank you.</p>
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+
+    </div>
+
+
+    <script>
+
+        document.getElementById("photo").addEventListener("change", (e) => {
+
+
+
+
+            if (e.target.files.length >= 1) {
+                const url = URL.createObjectURL(e.target.files[0]);
+                console.log(url);
+
+                document.getElementById("preview").style.display = "block";
+                document.getElementById("preview").src = url;
+                document.getElementById("camera-icon-cont").style.display = "none";
+
+            }
+
+            else {
+                document.getElementById("preview").style.display = "none";
+                document.getElementById("camera-icon-cont").style.display = "flex";
+            }
+
+            console.log("here");
+
+
+
+        });
+
+
+        document.querySelector("form").addEventListener("submit", (e) => {
+           e.preventDefault();
+           e.currentTarget.reset();
+           document.getElementById("after-sub-msg").style.display = "block";
+
+           document.getElementById("preview").style.display = "none";
+                document.getElementById("camera-icon-cont").style.display = "flex";
+        });
+
+        document.getElementById("go-to-form").addEventListener("click", (e)=>{
+            e.currentTarget.style.display="none";
+            document.getElementById("form-cont").style.display="block";
+        });
+
+
+        //document.getElementById("back-button")
+        document.getElementById("back-button").addEventListener("click", (e) => {
+          //  console.log("clicked");
+            document.getElementById("go-to-form").style.display="block";
+            document.getElementById("form-cont").style.display="none";
+            document.getElementById("after-sub-msg").style.display="none";
+        });
+
+
+
+    </script>
+</body>
+
+
+</html>
